@@ -9,6 +9,12 @@ class Settings:
         self.bg_color = (230, 230, 230)  # (light shade of gray)
         self.ship_speed = 1.5
 
+        # Bullet settings
+        self.bullet_speed = 2.0
+        self.bullet_width = 3
+        self.bullet_height = 15
+        self.bullet_color = (60, 60, 60)  # (dark shade of gray)
+
     def get_display_mode(self):
         return self.screen_width, self.screen_height
 
