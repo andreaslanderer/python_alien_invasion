@@ -7,6 +7,7 @@ class Settings:
         self.screen_width = 1_200
         self.screen_height = 800
         self.bg_color = (230, 230, 230)  # (light shade of gray)
+        self.ship_speed = 1.5
 
     def get_display_mode(self):
         return self.screen_width, self.screen_height
