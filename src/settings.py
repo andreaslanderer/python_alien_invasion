@@ -14,6 +14,7 @@ class Settings:
         self.bullet_width = 3
         self.bullet_height = 15
         self.bullet_color = (60, 60, 60)  # (dark shade of gray)
+        self.bullets_allowed = 3
 
     def get_display_mode(self):
         return self.screen_width, self.screen_height

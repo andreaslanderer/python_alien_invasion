@@ -4,7 +4,6 @@ import sys
 from bullet import Bullet
 from settings import Settings
 from ship import Ship
-from src.bullet import Bullet
 
 
 class AlienInvasion:
@@ -26,20 +25,16 @@ class AlienInvasion:
         while True:
             # Watch for keyboard and mouse events
             self._check_events()
-            self._update_screen()
-            self.ship.update()
-            self.bullets.update()
 
-            # Get rid of bullets that have disappeared
-            for bullet in self.bullets.copy():
-                if bullet.rect.bottom <= 0:
-                    self.bullets.remove(bullet)
+            self.ship.update()
+            self._update_bullets()
+            self._update_screen()
 
             # Run the while look 60 times per second (60 FPS)
             self.clock.tick(60)
 
     def _check_events(self):
-        """Respond to key presses and mouse events"""
+        """Respond to key presses and mouse events."""
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
@@ -49,6 +44,7 @@ class AlienInvasion:
                 self._check_keyup_event(event)
 
     def _check_keydown_event(self, event):
+        """Respond to keydown events."""
         if event.key == pygame.K_q:
             sys.exit()
         if event.key == pygame.K_RIGHT:
@@ -59,6 +55,7 @@ class AlienInvasion:
             self._fire_bullet()
 
     def _check_keyup_event(self, event):
+        """Respond to keyup events."""
         if event.key == pygame.K_RIGHT:
             self.ship.moving_right = False
         if event.key == pygame.K_LEFT:
@@ -66,8 +63,9 @@ class AlienInvasion:
 
     def _fire_bullet(self):
         """Create a new bullet and add it to the bullets group."""
-        new_bullet = Bullet(self)
-        self.bullets.add(new_bullet)
+        if len(self.bullets) < self.settings.bullets_allowed:
+            new_bullet = Bullet(self)
+            self.bullets.add(new_bullet)
 
     def _update_screen(self):
         """Update images on the screen, and flip to the new screen."""
@@ -78,6 +76,14 @@ class AlienInvasion:
         self.ship.blit_me()
         # Make the most recently drawn screen visible.
         pygame.display.flip()
+
+    def _update_bullets(self):
+        """Update the bullets on the screen."""
+        self.bullets.update()
+        # Get rid of bullets that have disappeared
+        for bullet in self.bullets.copy():
+            if bullet.rect.bottom <= 0:
+                self.bullets.remove(bullet)
 
 
 if __name__ == "__main__":
